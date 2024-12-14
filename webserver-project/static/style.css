@@ -1,0 +1,85 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 3D effect shadow */
+}
+button:active {
+    transform: translateY(2px); /* Pressed button effect */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); /* Reduced shadow when pressed */
+}
+
+#openSesameButton {
+    background-image: url('/static/button_image.png'); /* Replace with the actual path to the image */
+    background-size: cover; /* Ensures the image covers the button */
+    background-position: center; /* Centers the image on the button */
+    border: none; /* Remove default button borders */
+    width: 200px; /* Set consistent button size */
+    height: 200px;
+    border-radius: 0; /* Ensures the button is square */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    display: flex;
+    justify-content: center;
+    text-indent: -9999px; /* Hide any text in the button */
+    align-items: center;
+    transition: all 0.3s ease; /* Add smooth transition effects */
+    box-shadow: 0 4px 6px rgba(250, 248, 248, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Shadow for 3D effect */
+}
+#openSesameButton:active {
+    transform: translateY(2px); /* Pressed button effect */
+    box-shadow: 0 2px 3px rgba(255, 255, 255, 0.2); /* Reduced shadow when pressed */
+}
+
+#getSwitchStatusButton {
+    background-color: #ccc; /* Grey color */
+    color: #333; /* Dark text color for contrast */
+    font-size: 12px; /* Smaller font size */
+    padding: 7px 15px; /* Smaller padding for reduced size */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 3D effect shadow */
+    cursor: pointer;
+}
+
+#getSwitchStatusButton:hover {
+    background-color: #b3b3b3; /* Slightly darker grey on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.1); /* Enhance shadow on hover */
+}
+#getSwitchStatusButton:active {
+    transform: translateY(2px); /* Pressed button effect */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); /* Reduced shadow when pressed */
+}
+
+.status-container {
+    position: fixed; /* Fix container at the bottom-left */
+    bottom: 20px; /* Distance from bottom edge */
+    left: 20px; /* Distance from left edge */
+    display: flex; /* Flexbox to align items side by side */
+    flex-direction: row-reverse; /* Align items to the right */
+    align-items: center; /* Vertically center align items */
+    gap: 10px; /* Space between the button and the status text */
+}
+
+#switchStatus {
+    font-size: 12px; /* Match the size of the button text */
+    background-color: #f0f0f0; /* Background to make it stand out */
+    padding: 7px 15px; /* Match the button's padding */
+    color: #333; /* Match the button's text color */
+    border-radius: 5px; /* Rounded corners for a unified look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 3D effect shadow */
+    text-align: center; /* Center the text */
+}

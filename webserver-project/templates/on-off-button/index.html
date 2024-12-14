@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hakdom.com</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 10px; /* Space between buttons */
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="activateButton" onclick="handleActivate()">ON</button>
+        <button id="deactivateButton" onclick="handleDeactivate()">OFF</button>
+    </div>
+
+    <script>
+        async function handleActivate() {
+            try {
+                const response = await fetch('/activate-gpio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const result = await response.json();
+                if (!response.ok) {
+                    console.error("Error:", result.error);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        async function handleDeactivate() {
+            try {
+                const response = await fetch('/deactivate-gpio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const result = await response.json();
+                if (!response.ok) {
+                    console.error("Error:", result.error);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+    </script>
+</body>
+</html>

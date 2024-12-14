@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hakdom.com</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+    <div>
+        <h1><Hakdom class="com"></Hakdom></h1>
+        <!-- <img src="/static/cat.jpg" alt="A Cute Cat" width="400"> -->
+        <button id="openSesameButton" onclick="handleOpenSesame()">Open Sesame</button>
+        <div class="status-container">
+            <div id="switchStatus">Deur status: Dicht</div>
+            <button id="getSwitchStatusButton">Deur stand</button>
+        </div>
+        
+    </div>
+
+    <script>
+        async function handleOpenSesame() {
+            const button = document.getElementById('openSesameButton');
+            button.disabled = true; // Disable button to prevent multiple clicks during operation
+            
+            try {
+                // Activate GPIO (ON)
+                const activateResponse = await fetch('/activate-gpio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (!activateResponse.ok) {
+                    console.error("Error activating GPIO");
+                    button.disabled = false;
+                    return;
+                }
+
+                // Wait for 1 second
+                setTimeout(async () => {
+                    try {
+                        // Deactivate GPIO (OFF)
+                        const deactivateResponse = await fetch('/deactivate-gpio', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                        });
+                        if (!deactivateResponse.ok) {
+                            console.error("Error deactivating GPIO");
+                        }
+                    } catch (error) {
+                        console.error("Error during deactivation:", error);
+                    } finally {
+                        button.disabled = false; // Re-enable button after operation
+                    }
+                }, 1000); // 1 second delay
+            } catch (error) {
+                console.error("Error during activation:", error);
+                button.disabled = false; // Re-enable button if error occurs
+            }
+        }
+
+        async function getSwitchStatus() {
+            const statusDiv = document.getElementById('switchStatus');
+            try {
+                const response = await fetch('/switch-state', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (!response.ok) {
+                    statusDiv.textContent = "Error retrieving switch status!";
+                    console.error("Error fetching switch state.");
+                    return;
+                }
+
+                const data = await response.json();
+                const state = data.switch_state === "ON" ? "Open" : "Dicht"; // Map "ON" to "Open" and "OFF" to "Dicht"
+                statusDiv.textContent = `${state}`;
+            } catch (error) {
+                statusDiv.textContent = "Error retrieving switch status!";
+                console.error("Error fetching switch status:", error);
+            }
+        }
+
+        // Fetch switch state every 10 seconds
+        setInterval(getSwitchStatus, 10000);
+
+        // Initial fetch on page load
+        window.onload = getSwitchStatus;
+    </script>
+</body>
+</html>
