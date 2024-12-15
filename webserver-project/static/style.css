@@ -105,6 +105,17 @@ body {
     text-align: center;
 }
 
+/* Logo container styling */
+.logo-container {
+    margin-bottom: 1.5rem; /* Space between logo and form */
+}
+
+.logo {
+    max-width: 250px; /* Adjust logo size */
+    height: auto; /* Ensure aspect ratio is maintained */
+}
+
+/* Header text styling */
 .login-container h1 {
     margin-bottom: 1.5rem;
     font-size: 1.8rem;

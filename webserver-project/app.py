@@ -16,7 +16,7 @@ GPIO.setup(SWITCH_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 app = FastAPI()
 
 # Add session middleware
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key")
+app.add_middleware(SessionMiddleware, secret_key="your-strong-secret-key")
 
 # Set up Jinja2 templates
 templates = Jinja2Templates(directory="templates")
@@ -34,17 +34,17 @@ def get_current_user(request: Request):
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    """Login screen if not logged in, otherwise redirect to dashboard."""
+    """Login screen if not logged in, otherwise redirect to index.html."""
     if "username" in request.session:
-        return RedirectResponse("/dashboard")
+        return RedirectResponse("/index.html")
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login")
 async def login(request: Request, username: str = Form(...), password: str = Form(...)):
     """Handle user login."""
     if username in USER_CREDENTIALS and USER_CREDENTIALS[username] == password:
-        request.session["username"] = username
-        return RedirectResponse("/dashboard", status_code=302)
+        request.session["username"] = username  # Set the session username
+        return RedirectResponse("/index.html", status_code=302)  # Redirect to index.html after login
     return templates.TemplateResponse(
         "login.html", {"request": request, "error": "Invalid username or password"}
     )
@@ -52,11 +52,11 @@ async def login(request: Request, username: str = Form(...), password: str = For
 @app.get("/logout")
 async def logout(request: Request):
     """Log the user out by clearing the session."""
-    request.session.clear()
-    return RedirectResponse("/", status_code=302)
+    request.session.clear()  # Clear session data
+    return RedirectResponse("/", status_code=302)  # Redirect to the login page
 
-@app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request, username: str = Depends(get_current_user)):
+@app.get("/index.html", response_class=HTMLResponse)
+async def index(request: Request, username: str = Depends(get_current_user)):
     """Serve the same page as the root endpoint (/)."""
     return templates.TemplateResponse("index.html", {"request": request, "username": username})
 
