@@ -23,7 +23,7 @@ templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # User credentials
-USER_CREDENTIALS = {"abc": "abc"}
+USER_CREDENTIALS = {"haak": "haak"}
 
 def get_current_user(request: Request):
     """Retrieve the current logged-in user from the session."""
